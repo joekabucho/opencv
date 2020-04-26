@@ -1,3 +1,4 @@
+Installation
 Before using the OpenCV library in Node.js, you need to install it globally. On MacOS, you can install it through Homebrew. In this article, I am using and installing OpenCV version 2.4.
 
 $ brew tap homebrew/science
@@ -30,14 +31,19 @@ cv.readImage('./img/myImage.jpg', function (err, img) {
   // save img
   img.save('./img/myNewImage.jpg');
 });
+OpenCV Loaded Image
+
 A loaded image is an Object that represents the basic data structure to work with in OpenCV - Matrix. Each loaded or created image is represented by a matrix, where one field is one pixel of the image. The size of the Matrix is defined by the size of the loaded image. You can create a new Matrix in Node.js by calling new Matrix() constructor with specified parameters.
 
 new cv.Matrix(rows, cols);
 new cv.Matrix(rows, cols, type, fillValue);
 Image modifying
 One of the basic methods that we can use is converting color. For example, we can get a grayscale image by simply calling the Matrix#convertGrayscale() method.
-img.convertGrayscale();
-img.save('./img/myGrayscaleImg.jpg');
+
+ img.convertGrayscale();
+ img.save('./img/myGrayscaleImg.jpg');
+OpenCV Grayscaled Image
+
 This method is often used before using an edge detector.
 
 We can convert images to HSV cylindrical-coordinate representation just by calling
@@ -45,18 +51,25 @@ Matrix#convertHSVscale().
 
  img. convertHSVscale();
  img.save('./img/myGrayscaleImg.jpg');
- We can crop an image by calling the Matrix#crop(x, y, width, height) method with specified arguments.
+OpenCV HSV image
+
+We can crop an image by calling the Matrix#crop(x, y, width, height) method with specified arguments.
 This method doesn't modify our current image, it returns a new one.
 
   let croppedImg = img.crop(1000, 1000, 1000, 1000);
   croppedImg('./img/croppedImg');
-  If we need to copy a file from one variable to another, we can use the Matrix#copy() method which returns a new image Object.
+Cropped image
+
+If we need to copy a file from one variable to another, we can use the Matrix#copy() method which returns a new image Object.
 
   let newImg = img.copy();
 In this way, we can work with basic Matrix functions. We can also find various blur filter features for drawing and editing images. You can find all implemented methods on Matrix Object in the Matrix.cc file on project’s Github.
 
 Dilation and Erosion
 Dilation and erosion are fundamental methods of mathematical morphology. I will explain how they work using the following image modifications.
+
+Loaded logo
+
 The dilation of the binary image A by the structuring element B is defined by
 
 OpenCV dilate
@@ -70,6 +83,9 @@ OpenCV calls a dilate method like this.
 
 cv::dilate(self->mat, self->mat, structEl, cv::Point(-1, -1), 3);
 After this call, we can get modified image like this.
+
+Dilated logo
+
 The erosion of the binary image A by the structuring element B is defined by
 
 OpenCV Erode
@@ -81,6 +97,8 @@ We can use it like this:
 img.erode(3);
 and we get an eroded image.
 
+OpenCV Eroded Logo Image
+
 Edge detection
 For edge detection, we can use the Canny Edge Detector algorithm, which was developed in 1986 and became a very popular algorithm - often being called the “optimal detector”. This algorithm meets the following three criteria, which are important in edge detection:
 
@@ -91,6 +109,8 @@ Before using the Canny Edge Detector algorithm, we can convert the image to gray
 
 im.convertGrayscale();
 im.gaussianBlur([3, 3]);
+Gaussian blur
+
 The image is now ready to be detected by the Canny Edge algorithm. This algorithm receives parameters: lowThreshold and highThreshold.
 
 Two thresholds allow you to divide pixels into three groups.
@@ -101,7 +121,8 @@ If the value is below the low threshold level, those pixels are completely suppr
 There isn't something like a global setting of the threshold for all images. You need to properly set up each threshold for each image separately. There are some possibilities for predicting the right thresholds, but I will not specify them in this article.
 
 After calling the Canny Edge method, we also call a dilate method.
- const lowThresh = 0;
+
+  const lowThresh = 0;
   const highThresh = 150;
   const iterations = 2;
 
@@ -113,7 +134,9 @@ After these steps, we have an analyzed image. From this image, we can now select
   let contours = img.findContours();
   let allContoursImg = img.drawAllContours(contours, WHITE);
   allContoursImg.save('./img/allContoursImg.jpg');
-  Image with dilate.
+Canny edge image with dilate
+
+Image with dilate.
 
 Canny edge image without dilate
 Image without dilate.
