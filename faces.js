@@ -1,6 +1,6 @@
-const cv = require('opencv');
+import { readImage } from 'opencv';
 
-cv.readImage('./img/faces.jpeg', function(err, im){
+readImage('./img/faces.jpeg', function(err, im){
     if (err) throw err;
     if (im.width() < 1 || im.height() < 1) throw new Error('Image has no size');
   

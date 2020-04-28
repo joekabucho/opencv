@@ -1,24 +1,18 @@
-const cv = require('opencv');
+import { readImage } from 'opencv';
 
-var im;
-var width;
-var height;
 
-cv.readImage('./img/leaf.jpg', function (err, img) {
+
+readImage('./img/leaf.jpg', function (err, img) {
   if (err) {
     throw err;
   }
 
-//   const width = im.width();
-//   const height = im.height();
+  const width = img.width();
+  const height = img.height();
 
-//   if (width < 1 || height < 1) {
-//     throw new Error('Image has no size');
-//   }
-
-  // do some cool stuff with img
-
-  // save img
+  if (width < 1 || height < 1) {
+    throw new Error('Image not found');
+  }
 
   const lowThresh = 0;
   const highThresh = 150;

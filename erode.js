@@ -1,8 +1,8 @@
-const cv = require('opencv');
+import { readImage } from 'opencv';
 
 
 
-cv.readImage('./img/leaf.jpg', function (err, img) {
+readImage('./img/leaf.jpg', function (err, img) {
   if (err) {
     throw err;
   }
